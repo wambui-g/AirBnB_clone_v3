@@ -4,11 +4,13 @@ import os
 from flask import Flask
 
 from models import storage
-from app.v1.views import app_views
+from api.v1.views import app_views
 
 
 app = Flask(__name__)
 """instance of web application"""
+app_host = os.getenv("HBNB_API_HOST", "0.0.0.0")
+app_port = int(os.getenv("HBNB_API+PORT", "5000"))
 app.register_blueprint(app_views)
 app.url_map.strict_slashes = False
 
@@ -19,7 +21,7 @@ def teardown_flask(exception):
     storage.close()
 
 
-if __name__=="__main":
+if __name__ == "__main__":
     app_host = os.getenv("HBNB_API_HOST", "0.0.0.0")
     app_port = int(os.getenv("HBNB_API_PORT", "5000"))
     app.run(
